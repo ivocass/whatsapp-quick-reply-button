@@ -1,0 +1,37 @@
+body {
+	width: 300px;
+	height: 160px;
+}
+
+#logos-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 25px;
+	margin-bottom: 25px;
+}
+
+/* thanks to Vernon Adams, Cyreal, Jacques Le Bailly for the Mulish font
+ https://fonts.google.com/specimen/Mulish */
+#logo-name-img {
+	margin-left: 10px;
+	width: 150px;
+	height: auto;
+}
+
+#buttons-container {
+	display: flex;
+	justify-content: center;
+	margin-top: 15px;
+}
+
+a {
+	padding: 10px;
+	text-decoration: none;
+	color: black;
+}
+
+a:hover {
+	border-radius: 20px;
+	background-color: #ececec;
+}

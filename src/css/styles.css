@@ -1,0 +1,15 @@
+body {
+	/* ridiculously long name to avoid editing the app's variables. this var is toggled from js */
+	--whatsapp-quick-reply-button-message-options-visibility: visible;
+}
+
+._2s_eZ {
+	visibility: var(--whatsapp-quick-reply-button-message-options-visibility);
+}
+
+#quick-emojis-reply-button {
+	position: absolute;
+	bottom: 0;
+	right: -32px;
+	cursor: pointer;
+}
