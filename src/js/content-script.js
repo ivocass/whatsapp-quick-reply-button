@@ -1,4 +1,3 @@
-const MESSAGE_OPTIONS_CSS_VARIABLE_KEY = "--whatsapp-quick-reply-button-message-options-visibility";
 const REPLY_BUTTON_ICON_SOURCE = chrome.runtime.getURL("assets/reply-button-icon.png");
 
 // it's reused every time we hover on a message
@@ -46,53 +45,17 @@ function mouseOverListener(e) {
 	}
 }
 
-function replyButtonClickListener() {
-	// simulate a child of the message being hovered (for the message options button to show up)
-	let el = replyButton.parentNode.querySelector("._3sKvP.wQZ0F");
+// simulate a double-click on the message line, which triggers a message reply
+function replyButtonClickListener(e) {
+	let msgLine = e.target.closest("._2hqOq");
 
-	triggerMouseEvent(el, "mouseover");
+	if (msgLine) {
+		var event = new MouseEvent("dblclick", {
+			view: window,
+			bubbles: true,
+			cancelable: true,
+		});
 
-	// now get the message options button to simulate a click
-	let messageOptionsButton = document.querySelector("._2oA--");
-
-	// messages with images have a message options button with a different class
-	if (!messageOptionsButton) {
-		messageOptionsButton = document.querySelector(".huqNi");
+		msgLine.dispatchEvent(event);
 	}
-
-	if (messageOptionsButton) {
-		triggerMouseEvent(messageOptionsButton, "mousedown");
-
-		// prevent the message options context menu from showing up
-		document.body.style.setProperty(MESSAGE_OPTIONS_CSS_VARIABLE_KEY, "hidden");
-
-		let realReplyButton;
-
-		// get the line that contains the message
-		let messageContainer = messageOptionsButton.closest("._2hqOq");
-
-		// the REAL 'Reply' button is inside the context menu as the first option in messages we
-		// received, and as the second option in messages that we sent
-		if (messageContainer.classList.contains("message-in")) {
-			realReplyButton = document.querySelector(".Ut_N0.n-CQr._2vuxN");
-		} else if (messageContainer.classList.contains("message-out")) {
-			realReplyButton = document.querySelectorAll(".Ut_N0.n-CQr._2vuxN")[1];
-		}
-
-		if (realReplyButton) {
-			realReplyButton.click();
-		}
-
-		// make the context menu visible again
-		setTimeout(() => {
-			document.body.style.setProperty(MESSAGE_OPTIONS_CSS_VARIABLE_KEY, "visible");
-		}, 1000);
-	}
-}
-
-// thanks to Brock Adams (https://stackoverflow.com/a/24026594)
-function triggerMouseEvent(node, eventType) {
-	var clickEvent = document.createEvent("MouseEvents");
-	clickEvent.initEvent(eventType, true, true);
-	node.dispatchEvent(clickEvent);
 }
